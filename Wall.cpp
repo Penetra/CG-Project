@@ -23,6 +23,6 @@ int Wall::intersection(Ray &ray, double &t){
 
 }
 
-double Wall::getNormal(){
+Vector Wall::getNormal(){
 	return normal;
 }

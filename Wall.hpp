@@ -15,7 +15,7 @@ public:
 	
 	int intersection(Ray &ray, double &t);
 	
-	double getNormal();
+	Vector getNormal();
 
 };
 
