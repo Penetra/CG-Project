@@ -10,7 +10,7 @@ public:
 	Vector normal;
 	
 	Wall();
-	Wall(double normalX, double normalY, double normalZ, double red, double green, double blue, double r);
+	Wall(double centreX, double centreY, double centreZ, double normalX, double normalY, double normalZ, double red, double green, double blue);
 	~Wall();
 	
 	int intersection(Ray &ray, double &t);
