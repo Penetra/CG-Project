@@ -62,6 +62,11 @@ inline Vector operator -(const Point&p1, const Point &p2) {
     return v;
 }
 
+inline Vector operator - (const Vector &v1, const Vector &v2){
+    Vector v = {v1.x - v2.x, v1.y - v2.y, v1.z - v2.z };
+    return v;
+}
+
 inline Vector operator *(const Vector&v, double d){
     Vector v1 = { v.x * d, v.y * d, v.z *d };
     return v1;
@@ -93,6 +98,11 @@ struct Colour {
     }
 
 };
+
+inline Colour operator * (const Colour &c, double coef){
+	Colour c2 = {c.red * coef, c.green * coef, c.blue * coef};
+	return c2;
+}
 
 struct Material {
     Colour diffuse;
@@ -126,6 +136,6 @@ struct Scene{
         vector<Light> lights;
 };*/
 
-void createImage(int screenWidth, int screenHeight, Object **objectList, int objectListSize);
+void createImage(int screenWidth, int screenHeight, Object **objectList, int objectListSize, Light *lightList, int lightListSize);
 
 #endif
