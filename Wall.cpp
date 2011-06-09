@@ -1,6 +1,6 @@
 #include "Wall.hpp"
 #include "Ray.hpp"
-
+#include <cstdio>
 Wall::Wall() {
 
 }
@@ -38,6 +38,7 @@ int Wall::intersection(Ray &ray, double &t) {
     if( t < 0)
         return 0;
     
+    printf("intersection\n");
     return 1;     
     
 }

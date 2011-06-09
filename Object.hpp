@@ -11,10 +11,10 @@ public:
     double reflection, refraction, shininess;
     Colour diffuse, specular;
 
-    Object();
+    explicit Object();
     ~Object();
 
-    int intersection(Ray &ray, double &t);
+    virtual int intersection(Ray &ray, double &t) = 0;
 
     Point getCentre();
 
