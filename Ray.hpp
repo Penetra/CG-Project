@@ -11,6 +11,7 @@ public:
 	Vector direction;
 	Colour cor;
 	double intensity;
+        bool intersectionToLight;
 	Ray();
 	Ray(double x, double y, double z);
 	~Ray();
@@ -26,6 +27,7 @@ public:
 	void setRed(double r);
 	void setGreen(double g);
 	void setBlue(double b);
+        void normalizar();
 
 };
 

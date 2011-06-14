@@ -15,7 +15,7 @@ public:
     ~Sphere();
 
     int intersection(Ray &raio, double &t);
-
+    bool intersects(Ray &ray, double &rT0, double &rT1);
     double getRaio();
 
 
