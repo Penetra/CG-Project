@@ -14,7 +14,7 @@ public:
 	~Wall();
 	
 	int intersection(Ray &ray, double &t);
-	
+        bool intersects(Ray &ray, double &rT0, double &rT1);
 	Vector getNormal();
 
 };

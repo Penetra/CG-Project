@@ -1,4 +1,5 @@
 #include "Ray.hpp"
+#include <cmath>
 
 Ray::Ray(){
 
@@ -8,6 +9,7 @@ Ray::Ray(double x, double y, double z){
 	start.x = x;
 	start.y = y;
 	start.z = z;
+        intersectionToLight = false;
 
 	
 }
@@ -41,6 +43,13 @@ void Ray::setDirection(double x, double y, double z){
 	direction.x = x;
 	direction.y = y;
 	direction.z = z;
+}
+void Ray::normalizar(){
+    double temp = sqrtf(direction * direction);
+    
+    if(temp != 0.0f)
+        direction = direction*(1.0f / temp);
+    
 }
 void Ray::setRed(double r){
 	cor.red = r;
