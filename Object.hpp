@@ -15,6 +15,7 @@ public:
     ~Object();
 
     virtual int intersection(Ray &ray, double &t) = 0;
+    virtual void calculateNormal(Point &hitPoint, Vector &normal) = 0;
 
     Point getCentre();
 

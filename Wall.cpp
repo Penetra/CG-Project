@@ -64,6 +64,14 @@ int Wall::intersection(Ray &ray, double &t) {
     
 }
 
+void Wall::calculateNormal(Point &hitPoint, Vector &normalV){
+    
+    normalV.x = normal.x;
+    normalV.y = normal.y;
+    normalV.z = normal.z;
+    
+}
+
 
 Vector Wall::getNormal() {
     return normal;

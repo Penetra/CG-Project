@@ -7,6 +7,7 @@ using namespace std;
 #include "Object.hpp"
 #include "Ray.hpp"
 #include "Light.hpp"
+#include "Cylinder.hpp"
 
 extern Colour output[800][600];
 
@@ -27,7 +28,7 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
     Colour cor;
     Ray raio;
     Light currentLight;
-    Point camera = {400,10000,500};
+    Point camera = {400,300,-1000};
     Point end;
     
     for (j = 0; j < screenHeight; j++) {
@@ -36,8 +37,8 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
             
             /* Define plane projection with start and end point*/
             end.x = double(i)+ 0.5;
-            end.y = 3000;
-            end.z = double(j)+ 0.5;
+            end.y = double(j)+ 0.5;
+            end.z = -500;
             
             raio.start = camera;
             raio.direction = end - camera;
@@ -67,7 +68,10 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
                     hitPoint = raio.start + (raio.direction * minDistance); 
                     /* Calculate Normal on the intersection point*/
                     Vector normal;
-                    if(currentObject==1)
+                    
+                    objectList[currentObject]->calculateNormal(hitPoint,normal);
+                    
+                    /*if(currentObject==1)
                         normal = hitPoint - objectList[currentObject]->centre;
                     if(currentObject==0){
                         normal.x = 0.0;
@@ -79,7 +83,7 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
                         break;
                     }
                     temp = 1.0f / sqrtf(temp);
-                    normal = normal * temp;
+                    normal = normal * temp;**/
                     /* Check if any light hits the intersection point**/
                     Ray light;
                     light.start = hitPoint;
@@ -96,7 +100,7 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
                         if(lightDistance == 0.0f)
                             continue;
 
-                        temp = 1.0f/sqrtf(lightDistance);
+                        double temp = 1.0f/sqrtf(lightDistance);
                         
                         light.direction = light.direction * temp;
                         

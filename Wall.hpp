@@ -14,6 +14,7 @@ public:
 	~Wall();
 	
 	int intersection(Ray &ray, double &t);
+        void calculateNormal(Point &hitPoint, Vector &normal);
         bool intersects(Ray &ray, double &rT0, double &rT1);
 	Vector getNormal();
 

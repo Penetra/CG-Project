@@ -22,32 +22,8 @@ Sphere::Sphere(double centreX, double centreY, double centreZ, double red, doubl
 }
 
 Sphere::~Sphere() {
+    
 }
-
-bool Sphere::intersects(Ray &ray, double &rT0, double &rT1) {
-
-}
-
-/*int Sphere::intersection(Ray &ray, double &t){
-    
-    t = (( centre - ray.start) * ray.direction) / (sqrtf(ray.direction * ray.direction));
-    
-    Point intersect;
-    
-    intersect = ray.start + (ray.direction * t);
-    
-    double d = raio * raio - ((intersect - centre)* (intersect - centre));
-    
-    if(d < 0 || t <= 0){
-        return 0;
-    }
-    
-    if(d == 0){
-        return 1;
-    }
-
-
-}*/
 
 int Sphere::intersection(Ray &ray, double &t) {
 
@@ -67,6 +43,20 @@ int Sphere::intersection(Ray &ray, double &t) {
 
     t = t1 - t2;    
     return 1;
+}
+
+void Sphere::calculateNormal(Point &hitPoint, Vector &normal){
+    
+    normal = hitPoint - centre;
+    
+    double temp = normal * normal;
+    if (temp == 0.0f){
+        return;
+    }
+    temp = 1.0f / sqrtf(temp);
+    normal = normal * temp;
+    
+    
 }
 
 double Sphere::getRaio() {
