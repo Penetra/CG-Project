@@ -10,6 +10,15 @@ using namespace std;
 
 extern Colour output[800][600];
 
+void saturation(Colour &cor){
+    if(cor.red > 1.0)
+        cor.red = 1.0;
+    if(cor.green > 1.0)
+        cor.green = 1.0;
+    if(cor.blue > 1.0)
+        cor.blue = 1.0;
+}
+
 void createImage(int screenWidth, int screenHeight, Object **objectList, int objectListSize, Light *lightList, int lightListSize){
 
     int i, j, k, l;
@@ -18,7 +27,7 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
     Colour cor;
     Ray raio;
     Light currentLight;
-    Point camera = {400,300,-1000};
+    Point camera = {400,10000,500};
     Point end;
     
     for (j = 0; j < screenHeight; j++) {
@@ -27,8 +36,8 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
             
             /* Define plane projection with start and end point*/
             end.x = double(i)+ 0.5;
-            end.y = double(j)+ 0.5;
-            end.z = -500.0;
+            end.y = 3000;
+            end.z = double(j)+ 0.5;
             
             raio.start = camera;
             raio.direction = end - camera;
@@ -44,7 +53,6 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
 
                 double t, minDistance = -1;
                 for (k = 0; k < objectListSize; k++) {
-                    raio.intersectionToLight = false;
                     if(objectList[k]->intersection(raio, t) == 1){
                         if( t < minDistance || minDistance ==-1){
                             minDistance = t;
@@ -58,8 +66,14 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
                     
                     hitPoint = raio.start + (raio.direction * minDistance); 
                     /* Calculate Normal on the intersection point*/
-                    Vector normal = hitPoint - objectList[currentObject]->centre;
-                    
+                    Vector normal;
+                    if(currentObject==1)
+                        normal = hitPoint - objectList[currentObject]->centre;
+                    if(currentObject==0){
+                        normal.x = 0.0;
+                        normal.y = 1.0;
+                        normal.z = 0.0;
+                    }
                     double temp = normal * normal;
                     if (temp == 0.0f){
                         break;
@@ -77,26 +91,22 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
                         /*Define the direction to the light*/
                         light.direction = currentLight.centre - hitPoint;
                         
-                        double lightProj = normal * light.direction;
-                        
-                        if(lightProj < 0.00000001)
-                            continue;
-                        
                         double lightDistance = light.direction * light.direction;
                         
                         if(lightDistance == 0.0f)
                             continue;
 
                         temp = 1.0f/sqrtf(lightDistance);
+                        
                         light.direction = light.direction * temp;
-                        lightProj = temp * lightProj;
+                        
+                        double lightProj = light.direction * normal;
 
                         /* We need to know if there's any object between our intersection point and the light**/
 
                         shadow = false;
                         for(l = 0;l < objectListSize; l++){
                             t = lightDistance;
-                            light.intersectionToLight = true;
                             if(objectList[l]->intersection(light,t) && k != l){
                                 shadow = true;
                                 break;
@@ -121,12 +131,12 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
 
                                 if(lightProj - viewProjection < 0){
                                     blinn = 0.0;
-                                    blinn = raio.getIntensity() * powf(blinn, objectList[currentObject]->getShininess());
                                 }
                                 else{
-                                    blinn = 1.0/sqrtf(temp) * (lightProj - viewProjection);
-                                    blinn = raio.getIntensity() * powf(blinn, objectList[currentObject]->getShininess());
+                                    blinn = (1.0/sqrtf(temp)) * (lightProj - viewProjection);
+                                    
                                 }
+                                blinn = raio.getIntensity() * powf(blinn, objectList[currentObject]->getShininess());
 
                                 /*cor += (c * blinn * currentLight.intensity);**/
                                 cor.red += (blinn * objectList[currentObject]->getSpecular().red * currentLight.getIntensity());
@@ -135,27 +145,21 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
                             }
 
                         }
-                        else{
-                            if(currentObject == 2){
-                                
-                            }
-                        }
                     }
 
                     /*double reflet = 2.0f*(raio.direction * normal);*/
                     raio.start = hitPoint;
-                    raio.direction = raio.direction - (normal*2*(raio.direction*normal));
-                    /*raio.direction = raio.direction - (normal * reflet);
-                    raio.direction = raio.direction * (1.0/(sqrtf( raio.direction * raio.direction)));*/
-                    
+                    raio.direction = raio.direction - (normal*(2*(raio.direction*normal)));
+                    raio.normalizar();
                     raio.intensity = raio.intensity * objectList[currentObject]->getReflection();
                 }
                 level++;                
                 if(currentObject == -1 || level == 10 || raio.intensity <= 0.00000001){
-                        output[i][j].red += cor.red;
-                        output[i][j].green += cor.green;
-                        output[i][j].blue += cor.blue;
-                        break;
+                    saturation(cor);
+                    output[i][j].red += cor.red;
+                    output[i][j].green += cor.green;
+                    output[i][j].blue += cor.blue;
+                    break;
                 }
             }while (level < 10 );  
         }
