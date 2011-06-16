@@ -5,17 +5,18 @@
 #include "Object.hpp"
 
 class Ray;
+class Wall;
 
 class Cylinder : public Object {
 public:
     double raio, height;
+	Point bottom, top;
     Point position;
     Cylinder();
-    Cylinder(double centreX, double centreY, double centreZ, double red, double green, double blue, double r);
+	Cylinder(double bottomX, double bottomY, double bottomZ, double red, double green, double blue, double r, double h);
     ~Cylinder();
 
     int intersection(Ray &raio, double &t);
-
     double getRaio();
 
 
