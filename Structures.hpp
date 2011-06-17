@@ -37,6 +37,10 @@ inline Point operator *(const Point&p, double d){
     Point p2 = { p.x * d, p.y * d, p.z *d };
     return p2;
 }
+inline Point operator +(const Point&p, double d){
+    Point p2 = { p.x + d, p.y + d, p.z +d };
+    return p2;
+}
 
 inline Point operator +(const Point&p, const Vector &v) {
     Point p2 = {p.x + v.x, p.y + v.y, p.z + v.z};

@@ -40,7 +40,7 @@ void createObjects() {
     
     objectList = new Object *[objectListSize];
     lightList = new Light [lightListSize];
-    if(true){
+    if(false){
         
         Cylinder *cyl = new Cylinder(300.0, 0, 500, 0.0, 0.0, 1.0, 100.0, 100.0);
         (*cyl).setSpecular(1.0, 1.0, 1.0);
@@ -62,26 +62,26 @@ void createObjects() {
         lightList[0] = Light(300, 1000.0, 100, 1.0, 1.0, 1.0, 1.0);
     }
     else{
-        Sphere *sphere = new Sphere(300.0, 100, 100, 1.0, 0.0, 0.0, 100.0);
+        Sphere *sphere = new Sphere(300.0, 200, 100, 1.0, 0.0, 0.0, 100.0);
 
         (*sphere).setDiffuse(1.0, 0.0, 0.0);
-        (*sphere).setReflection(0);
+        (*sphere).setReflection(0.0);
         (*sphere).setSpecular(1.0, 1.0, 1.0);
-        (*sphere).setShininess(50.0);
+        (*sphere).setShininess(100.0);
 
         objectList[1] = sphere;
         
-        Wall *floor = new Wall(0, 0, 0 , 0.0, 1.0, 0.0, 1.0, 1.0, 1.0);
+        Wall *floor = new Wall(0, 0, 0 , 0.0, 1.0, 0.0, 0.5, 0.5, 0.5);
 
         (*floor).setSpecular(1.0, 1.0, 1.0);
         (*floor).setDiffuse(1.0, 1.0, 1.0);
-        (*floor).setReflection(0.0);
-        (*floor).setShininess(30.0);
+        (*floor).setReflection(0);
+        (*floor).setShininess(10.0);
 
         objectList[0] = floor;
         
         
-        lightList[0] = Light(300, 1000.0, 100, 1.0, 1.0, 1.0, 1.0);
+        lightList[0] = Light(300, 5000.0, 500, 1.0, 1.0, 1.0, 1.0);
     } 
 
 }

@@ -26,7 +26,6 @@ Sphere::~Sphere() {
 }
 
 int Sphere::intersection(Ray &ray, double &t) {
-
     
     double t1 = ((centre - ray.start) * ray.direction) / (sqrtf(ray.direction * ray.direction));
 
@@ -39,9 +38,10 @@ int Sphere::intersection(Ray &ray, double &t) {
     if (d > raio)
         return 0;
 
-    double t2 = sqrt(pow(raio, 2) - pow(d, 2));
+    double t2 = sqrtf(pow(raio, 2) - pow(d, 2));
 
-    t = t1 - t2;    
+    t = t1 - t2;        
+    
     return 1;
 }
 

@@ -18,6 +18,8 @@ Wall::Wall(double centreX, double centreY, double centreZ, double normalX, doubl
     cor.red = red;
     cor.green = green;
     cor.blue = blue;
+    
+    chess = false;
 }
 
 Wall::~Wall() {
@@ -36,31 +38,48 @@ int Wall::intersection(Ray &ray, double &t) {
     }
     t = (-d - (getNormal() * ray.start)) / temp;
     
-    /* If t < 0 there's no intersection**/
+    /* If t < 0 there's no intersection*/
     if( t < 0)
         return 0;
     
+    chess = true;
+    if(chess){
+        Point hitPoint = ray.start + (ray.direction * t);
+        int x,z;
+        x = int(floor(hitPoint.x * 1/200));
+        z = int(floor(hitPoint.z * 1/200));
+        
+        if((x % 2) == 0){
+            if((z % 2) == 0){
+                cor.red = 1.0;
+                cor.green = 1.0;
+                cor.blue = 1.0;
+            }
+            else{
+                cor.red = 0.0;
+                cor.green = 0.0;
+                cor.blue = 0.0;
+            }
+        }
+        else{
+            if((z % 2) == 0){
+                cor.red = 0.0;
+                cor.green = 0.0;
+                cor.blue = 0.0;
+            }
+            else{
+                cor.red = 1.0;
+                cor.green = 1.0;
+                cor.blue = 1.0;
+            }
+        }
+        
+    }
+    
+    
+    
     return 1;
     
-    /*double distance = sqrtf(ray.direction * ray.direction);
-    
-    double numerator = (centre - ray.start)*normal;
-    double denominator = ray.direction*normal;
-
-    if (denominator == 0)
-        return 0;
-
-    t = numerator/denominator;
-
-    if (t <= 0.00000001)
-        return 0;
-
-    if(ray.intersectionToLight && t > distance){
-        printf("ola\n");
-        return 0;
-    }
-
-    return 1;**/
     
 }
 

@@ -28,7 +28,7 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
     Colour cor;
     Ray raio;
     Light currentLight;
-    Point camera = {400,300,-1000};
+    Point camera = {300,10000,100};
     Point end;
     
     for (j = 0; j < screenHeight; j++) {
@@ -37,8 +37,8 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
             
             /* Define plane projection with start and end point*/
             end.x = double(i)+ 0.5;
-            end.y = double(j)+ 0.5;
-            end.z = -500;
+            end.y = 5000;
+            end.z = double(j)+ 0.5;
             
             raio.start = camera;
             raio.direction = end - camera;
@@ -68,23 +68,8 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
                     hitPoint = raio.start + (raio.direction * minDistance); 
                     /* Calculate Normal on the intersection point*/
                     Vector normal;
-                    
                     objectList[currentObject]->calculateNormal(hitPoint,normal);
                     
-                    /*if(currentObject==1)
-                        normal = hitPoint - objectList[currentObject]->centre;
-                    if(currentObject==0){
-                        normal.x = 0.0;
-                        normal.y = 1.0;
-                        normal.z = 0.0;
-                    }
-                    double temp = normal * normal;
-                    if (temp == 0.0f){
-                        break;
-                    }
-                    temp = 1.0f / sqrtf(temp);
-                    normal = normal * temp;**/
-                    /* Check if any light hits the intersection point**/
                     Ray light;
                     light.start = hitPoint;
 
