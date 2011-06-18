@@ -28,7 +28,7 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
     Colour cor;
     Ray raio;
     Light currentLight;
-    Point camera = {300,10000,100};
+    Point camera = {200,700,-700};
     Point end;
     
     for (j = 0; j < screenHeight; j++) {
@@ -37,11 +37,12 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
             
             /* Define plane projection with start and end point*/
             end.x = double(i)+ 0.5;
-            end.y = 5000;
-            end.z = double(j)+ 0.5;
+            end.y = double(j)+ 0.5;
+            end.z = -100;
             
             raio.start = camera;
             raio.direction = end - camera;
+            
             raio.normalizar();
             raio.intensity = 1.0;           
 

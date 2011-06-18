@@ -40,7 +40,7 @@ int Sphere::intersection(Ray &ray, double &t) {
 
     double t2 = sqrtf(pow(raio, 2) - pow(d, 2));
 
-    t = t1 - t2;        
+    t = t1 - t2;
     
     return 1;
 }

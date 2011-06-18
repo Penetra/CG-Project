@@ -19,7 +19,6 @@ Wall::Wall(double centreX, double centreY, double centreZ, double normalX, doubl
     cor.green = green;
     cor.blue = blue;
     
-    chess = false;
 }
 
 Wall::~Wall() {
@@ -39,15 +38,16 @@ int Wall::intersection(Ray &ray, double &t) {
     t = (-d - (getNormal() * ray.start)) / temp;
     
     /* If t < 0 there's no intersection*/
-    if( t < 0)
+    if( t < 0.00000001)
         return 0;
     
-    chess = true;
     if(chess){
-        Point hitPoint = ray.start + (ray.direction * t);
+        Point hit = ray.start + (ray.direction * t);
+        if(hit.x > centre.x + 1600 || hit.x < 0 || hit.z > centre.z + 1600 || hit.z < 0)
+            return 0;
         int x,z;
-        x = int(floor(hitPoint.x * 1/200));
-        z = int(floor(hitPoint.z * 1/200));
+        x = int(floor(hit.x * 1/200));
+        z = int(floor(hit.z * 1/200));
         
         if((x % 2) == 0){
             if((z % 2) == 0){
@@ -75,12 +75,7 @@ int Wall::intersection(Ray &ray, double &t) {
         }
         
     }
-    
-    
-    
     return 1;
-    
-    
 }
 
 void Wall::calculateNormal(Point &hitPoint, Vector &normalV){
@@ -94,4 +89,8 @@ void Wall::calculateNormal(Point &hitPoint, Vector &normalV){
 
 Vector Wall::getNormal() {
     return normal;
+}
+
+void Wall::setChess(bool b){
+    chess = b;
 }

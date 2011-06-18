@@ -62,7 +62,7 @@ void createObjects() {
         lightList[0] = Light(300, 1000.0, 100, 1.0, 1.0, 1.0, 1.0);
     }
     else{
-        Sphere *sphere = new Sphere(300.0, 200, 100, 1.0, 0.0, 0.0, 100.0);
+        Sphere *sphere = new Sphere(500.0, 60, 100, 1.0, 0.0, 0.0, 50.0);
 
         (*sphere).setDiffuse(1.0, 0.0, 0.0);
         (*sphere).setReflection(0.0);
@@ -71,14 +71,35 @@ void createObjects() {
 
         objectList[1] = sphere;
         
-        Wall *floor = new Wall(0, 0, 0 , 0.0, 1.0, 0.0, 0.5, 0.5, 0.5);
+        Wall *board = new Wall(0, 10, 0 , 0.0, 1.0, 0.0, 1.0, 1.0, 1.0);
+
+        (*board).setSpecular(1.0, 1.0, 1.0);
+        (*board).setDiffuse(1.0, 1.0, 1.0);
+        (*board).setReflection(0);
+        (*board).setShininess(10.0);
+        (*board).setChess(true);
+
+        objectList[0] = board;
+        
+        /*Wall *floor = new Wall(0, 0, 0 , 0.0, 1.0, 0.0, 0.5, 0.5, 0.5);
 
         (*floor).setSpecular(1.0, 1.0, 1.0);
-        (*floor).setDiffuse(1.0, 1.0, 1.0);
+        (*floor).setDiffuse(0.5, 0.5, 0.5);
         (*floor).setReflection(0);
         (*floor).setShininess(10.0);
+        (*floor).setChess(false);
 
-        objectList[0] = floor;
+        objectList[0] = floor;**/
+        
+        /*Wall *back = new Wall(0, 0, 50000 , 0.0, 0.0, -1.0, 1.0, 1.0, 1.0);
+
+        (*back).setSpecular(1.0, 1.0, 1.0);
+        (*back).setDiffuse(1.0, 1.0, 1.0);
+        (*back).setReflection(0);
+        (*back).setShininess(10.0);
+        (*back).setChess(false);
+        
+        objectList[2] = back;*/
         
         
         lightList[0] = Light(300, 5000.0, 500, 1.0, 1.0, 1.0, 1.0);
