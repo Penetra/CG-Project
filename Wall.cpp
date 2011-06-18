@@ -42,7 +42,6 @@ int Wall::intersection(Ray &ray, double &t) {
     if( t < 0)
         return 0;
     
-    chess = true;
     if(chess){
         Point hitPoint = ray.start + (ray.direction * t);
         int x,z;
@@ -94,4 +93,8 @@ void Wall::calculateNormal(Point &hitPoint, Vector &normalV){
 
 Vector Wall::getNormal() {
     return normal;
+}
+
+int Wall::refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &normal) {
+	return 0;
 }
