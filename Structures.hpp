@@ -153,6 +153,6 @@ struct Scene{
         vector<Light> lights;
 };*/
 
-void createImage(int screenWidth, int screenHeight, Object **objectList, int objectListSize, Light *lightList, int lightListSize);
+void createImage(int screenWidth, int screenHeight);
 
 #endif
