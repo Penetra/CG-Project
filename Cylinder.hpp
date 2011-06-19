@@ -12,6 +12,8 @@ public:
     double raio, height, raio2;
     Point bottom, top;
     Point position;
+	Wall *bottom_;
+	Wall *top_;
     Cylinder();
     Cylinder(double bottomX, double bottomY, double bottomZ, double red, double green, double blue, double r, double h);
     ~Cylinder();
