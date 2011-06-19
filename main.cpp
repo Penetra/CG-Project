@@ -35,62 +35,115 @@ Colour output[800][600];
 
 void createObjects() {
 
-    objectListSize = 2;
+    objectListSize = 3;
     lightListSize = 1;
     
     objectList = new Object *[objectListSize];
     lightList = new Light [lightListSize];
     if(false){
-        
-        Cylinder *cyl = new Cylinder(300.0, 0, 500, 0.0, 0.0, 1.0, 100.0, 100.0);
+        /*Sphere *sphere = new Sphere(500.0, 100, 100, 1.0, 0.0, 0.0, 100.0);
+
+        (*sphere).setDiffuse(0.0, 0.0, 0.0);
+        (*sphere).setReflection(0.0);
+        (*sphere).setRefraction(0.0);
+        (*sphere).setSpecular(1.0, 1.0, 1.0);
+        (*sphere).setShininess(30.0);
+
+        objectList[1] = sphere;*/
+                
+        Cylinder *cyl = new Cylinder(300.0, -50, 200, 0.0, 0.0, 1.0, 100.0, 100.0);
         (*cyl).setSpecular(1.0, 1.0, 1.0);
         (*cyl).setDiffuse(1.0, 0.0, 0.0);
         (*cyl).setReflection(0);
+        (*cyl).setRefraction(0.0);
         (*cyl).setShininess(50.0);
         objectList[1] = cyl;
+		
+
         
         Wall *floor = new Wall(0, 0, 0 , 0.0, 1.0, 0.0, 1.0, 1.0, 1.0);
 
         (*floor).setSpecular(1.0, 1.0, 1.0);
         (*floor).setDiffuse(1.0, 1.0, 1.0);
-        (*floor).setReflection(0.0);
+        (*floor).setReflection(0);
+        (*floor).setRefraction(0.0);
         (*floor).setShininess(30.0);
-
+        (*floor).chess = true;
+        
         objectList[0] = floor;
+		/*
+		Wall *right = new Wall(0, 0, 1000 , 0.0, 0.0, -1.0, 1.0, 1.0, 1.0);
+
+        (*right).setSpecular(1.0, 1.0, 1.0);
+        (*right).setDiffuse(1.0, 1.0, 1.0);
+        (*right).setReflection(0.0);
+        (*right).setShininess(30.0);
+        objectList[2] = right;
+		*/
         
-        
-        lightList[0] = Light(300, 1000.0, 100, 1.0, 1.0, 1.0, 1.0);
+        lightList[0] = Light(300, 1000.0, 200, 1.0, 1.0, 1.0, 1.0);
     }
     else{
-        Sphere *sphere = new Sphere(500.0, 60, 100, 1.0, 0.0, 0.0, 50.0);
-
-        (*sphere).setDiffuse(1.0, 0.0, 0.0);
-        (*sphere).setReflection(0.0);
-        (*sphere).setSpecular(1.0, 1.0, 1.0);
-        (*sphere).setShininess(100.0);
-
-        objectList[1] = sphere;
+        lightList[0] = Light(300, 1000.0, 500, 1.0, 1.0, 1.0, 1.0);
         
-        Wall *board = new Wall(0, 10, 0 , 0.0, 1.0, 0.0, 1.0, 1.0, 1.0);
+        /*Wall *board = new Wall(0, 1, 0 , 0.0, 1.0, 0.0, 0.0, 0.0, 0.0);
 
-        (*board).setSpecular(1.0, 1.0, 1.0);
-        (*board).setDiffuse(1.0, 1.0, 1.0);
+        (*board).setSpecular(0.0, 0.0, 0.0);
+        (*board).setDiffuse(0.0, 0.0, 0.0);
         (*board).setReflection(0);
+        (*board).setRefraction(0.0);
         (*board).setShininess(10.0);
         (*board).setChess(true);
 
         objectList[0] = board;
         
-        /*Wall *floor = new Wall(0, 0, 0 , 0.0, 1.0, 0.0, 0.5, 0.5, 0.5);
-
-        (*floor).setSpecular(1.0, 1.0, 1.0);
-        (*floor).setDiffuse(0.5, 0.5, 0.5);
-        (*floor).setReflection(0);
-        (*floor).setShininess(10.0);
+        Wall *floor = new Wall(0, 0, 0 , 0.0, 1.0, 0.0, 0.615, 0.384, 0.2588);
+        
+        (*floor).setSpecular(0.0, 0.0, 0.0);
+        (*floor).setDiffuse(0.0, 0.0, 0.0);
+        (*floor).setReflection(0.0);
+        (*floor).setRefraction(0.0);
+        (*floor).setShininess(30.0);
         (*floor).setChess(false);
 
-        objectList[0] = floor;**/
+        objectList[0] = floor;
+         
+         /*Cylinder *cyl = new Cylinder(0.0, 0, 200, 0.0, 0.0, 1.0, 100.0, 100.0);
+        (*cyl).setSpecular(1.0, 1.0, 1.0);
+        (*cyl).setDiffuse(1.0, 0.0, 0.0);
+        (*cyl).setReflection(0);
+        (*cyl).setRefraction(0.0);
+        (*cyl).setShininess(50.0);
+        objectList[1] = cyl;
         
+        Sphere *s = new Sphere(450.0, 500, 100, 1.0, 0.0, 0.0, 50.0);
+        (*s).setDiffuse(1.0, 0.0, 0.0);
+        (*s).setReflection(0.0);
+        (*s).setRefraction(0.0);
+        (*s).setSpecular(1.0, 1.0, 1.0);
+        (*s).setShininess(50.0);
+        
+        objectList[1] = s;       
+        
+        s = new Sphere(100.0, 100, 100, 1.0, 0.0, 0.0, 50.0);
+        (*s).setDiffuse(1.0, 0.0, 0.0);
+        (*s).setReflection(0.0);
+        (*s).setRefraction(0.0);
+        (*s).setSpecular(1.0, 1.0, 1.0);
+        (*s).setShininess(50.0);
+        
+        objectList[3] = s;
+        
+        Sphere *sphere = new Sphere(300.0, 50, 100, 1.0, 0.0, 0.0, 50.0);
+        (*sphere).setDiffuse(1.0, 0.0, 0.0);
+        (*sphere).setReflection(0.0);
+        (*sphere).setRefraction(0.0);
+        (*sphere).setSpecular(1.0, 1.0, 1.0);
+        (*sphere).setShininess(50.0);
+        
+        objectList[2] = sphere;
+        
+               
         /*Wall *back = new Wall(0, 0, 50000 , 0.0, 0.0, -1.0, 1.0, 1.0, 1.0);
 
         (*back).setSpecular(1.0, 1.0, 1.0);
@@ -101,8 +154,29 @@ void createObjects() {
         
         objectList[2] = back;*/
         
+        Cylinder *cyl = new Cylinder(0.0, 0.0, 0, 0.0, 0.0, 1.0, 100.0, 100.0);
+        (*cyl).setSpecular(1.0, 1.0, 1.0);
+        (*cyl).setDiffuse(1.0, 1.0, 1.0);
+        (*cyl).setShininess(30.0);
+        objectList[1] = cyl;
+
+        Sphere *sphere = new Sphere(500.0, 300, 100, 0.5, 0.5, 0.5, 100.0);
+        (*sphere).setDiffuse(0.0, 0.0, 0.0);
+        (*sphere).setReflection(1.0);
+        (*sphere).setSpecular(1.0, 1.0, 1.0);
+        (*sphere).setShininess(30.0);
+
+        objectList[2] = sphere;
         
-        lightList[0] = Light(300, 5000.0, 500, 1.0, 1.0, 1.0, 1.0);
+        Wall *floor = new Wall(0, 0, 0 , 0.0, 1.0, 0.0, 1.0, 1.0, 1.0);
+
+        (*floor).setSpecular(0.0, 0.0, 0.0);
+        (*floor).setDiffuse(1.0, 1.0, 1.0);
+        //(*floor).setReflection(1.0);
+        //(*floor).setRefraction(1.2);
+        (*floor).setShininess(30.0);
+        //(*floor).chess = true;
+        objectList[0] = floor;
     } 
 
 }
@@ -148,7 +222,7 @@ int main(int argc, char** argv) {
     glutCreateWindow("Projecto RayTracing - {jpenetra,rjrocha}@student.dei.uc.pt");
     
     createObjects();   
-    createImage(screenWidth, screenHeight, objectList, objectListSize, lightList, lightListSize);
+    createImage(screenWidth, screenHeight);
     glutDisplayFunc(display);
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.0, 0.0, 0.0, 1.0);

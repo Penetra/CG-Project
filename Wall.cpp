@@ -3,6 +3,8 @@
 #include <cstdio>
 #include <cmath>
 
+#define squareSize 150
+
 Wall::Wall() {
 
 }
@@ -38,39 +40,39 @@ int Wall::intersection(Ray &ray, double &t) {
     t = (-d - (getNormal() * ray.start)) / temp;
     
     /* If t < 0 there's no intersection*/
-    if( t < 0.00000001)
+    if( t < 0.0000001)
         return 0;
     
     if(chess){
         Point hit = ray.start + (ray.direction * t);
-        if(hit.x > centre.x + 1600 || hit.x < 0 || hit.z > centre.z + 1600 || hit.z < 0)
+        if(hit.x > centre.x + squareSize*8 || hit.x < 0 || hit.z > centre.z + squareSize*8 || hit.z < 0)
             return 0;
         int x,z;
-        x = int(floor(hit.x * 1/200));
-        z = int(floor(hit.z * 1/200));
+        x = int(floor(hit.x * 1/squareSize));
+        z = int(floor(hit.z * 1/squareSize));
         
         if((x % 2) == 0){
             if((z % 2) == 0){
-                cor.red = 1.0;
-                cor.green = 1.0;
-                cor.blue = 1.0;
-            }
-            else{
                 cor.red = 0.0;
                 cor.green = 0.0;
                 cor.blue = 0.0;
+            }
+            else{
+                cor.red = 1.0;
+                cor.green = 1.0;
+                cor.blue = 1.0;
             }
         }
         else{
             if((z % 2) == 0){
-                cor.red = 0.0;
-                cor.green = 0.0;
-                cor.blue = 0.0;
-            }
-            else{
                 cor.red = 1.0;
                 cor.green = 1.0;
                 cor.blue = 1.0;
+            }
+            else{
+                cor.red = 0.0;
+                cor.green = 0.0;
+                cor.blue = 0.0;
             }
         }
         
@@ -80,9 +82,8 @@ int Wall::intersection(Ray &ray, double &t) {
 
 void Wall::calculateNormal(Point &hitPoint, Vector &normalV){
     
-    normalV.x = normal.x;
-    normalV.y = normal.y;
-    normalV.z = normal.z;
+    normalV = normal;
+    
     
 }
 
@@ -93,4 +94,7 @@ Vector Wall::getNormal() {
 
 void Wall::setChess(bool b){
     chess = b;
+}
+int Wall::refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &normal) {
+	return 0;
 }

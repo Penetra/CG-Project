@@ -33,6 +33,11 @@ struct Vector {
 
 };
 
+inline Vector operator -(const Vector&v) {
+	Vector v1 = {-v.x, -v.y, -v.z};
+	return v1;
+}
+
 inline Point operator *(const Point&p, double d){
     Point p2 = { p.x * d, p.y * d, p.z *d };
     return p2;
@@ -140,6 +145,6 @@ struct Scene{
         vector<Light> lights;
 };*/
 
-void createImage(int screenWidth, int screenHeight, Object **objectList, int objectListSize, Light *lightList, int lightListSize);
+void createImage(int screenWidth, int screenHeight);
 
 #endif

@@ -18,6 +18,7 @@ public:
         bool intersects(Ray &ray, double &rT0, double &rT1);
 	Vector getNormal();
         void setChess(bool b);
+	int refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &normal);
 
 };
 
