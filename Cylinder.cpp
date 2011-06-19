@@ -75,18 +75,14 @@ int Cylinder::intersection(Ray &ray, double &t){
 	
 	if(bottom_->intersection(ray,t3)) { /* intersects plane */
 		intersection = ray.start+(ray.direction*t3);
-		if( powf(intersection.x-bottom.x,2) + powf(intersection.z-bottom.z,2) <= raio2 ) { /* intersects cylinder */
+		if( pow(intersection.x-bottom.x,2) + pow(intersection.z-bottom.z,2) <= raio2 ) { /* intersects cylinder */
 			if(t3<t)
 				t = t3;
 		}
 	}
 	if(top_->intersection(ray,t4)) { /* intersects plane */
 		intersection = ray.start+(ray.direction*t4);
-<<<<<<< HEAD
 		if( pow(intersection.x-top.x,2) + pow(intersection.z-top.z,2) <= raio2 ) { /* intersects cylinder */
-=======
-		if( powf(intersection.x-top.x,2) + powf(intersection.z-top.z,2) <= raio2 ) { /* intersects cylinder */
->>>>>>> 03617a74474459ac05799d60ae967d782711dac4
 			if(t4<t)
 				t = t4;
 		}

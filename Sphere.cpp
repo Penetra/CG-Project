@@ -40,20 +40,11 @@ int Sphere::intersection(Ray &ray, double &t) {
 
     double t2 = sqrtf(pow(raio, 2) - pow(d, 2));
 
-<<<<<<< HEAD
 	t = t1 - t2;
 	
 	if(t>0.0f)
 		return 1;
 	return 0;
-=======
-    t = t1 - t2;
-    
-    if( t < 0)
-        return 0;
-    
-    return 1;
->>>>>>> 03617a74474459ac05799d60ae967d782711dac4
 }
 
 void Sphere::calculateNormal(Point &hitPoint, Vector &normal){
