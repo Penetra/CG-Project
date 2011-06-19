@@ -19,7 +19,7 @@ public:
     int intersection(Ray &raio, double &t);
     void calculateNormal(Point &hitPoint, Vector &normal);
     double getRaio();
-	int refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &normal);
+	int refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &normal, double &t);
 
 
 };

@@ -81,13 +81,13 @@ int Cylinder::intersection(Ray &ray, double &t){
 	}
 	if(top_->intersection(ray,t4)) { /* intersects plane */
 		intersection = ray.start+(ray.direction*t4);
-		if( pow(intersection.x-bottom.x,2) + pow(intersection.z-bottom.z,2) <= raio2 ) { /* intersects cylinder */
+		if( pow(intersection.x-top.x,2) + pow(intersection.z-top.z,2) <= raio2 ) { /* intersects cylinder */
 			if(t4<t)
 				t = t4;
 		}
 	}
 	
-	if(t!=DBL_MAX && t>0)
+	if(t!=DBL_MAX && t>0.00000001)
 		return 1;
 	
 	return 0;
@@ -118,7 +118,7 @@ void Cylinder::calculateNormal(Point &hitPoint, Vector &normal){
 	}
 }
 
-int Cylinder::refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &normal) {
+int Cylinder::refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &normal, double &t) {
 	/*
 	Water	1.33
 	Glass	1.50
@@ -134,15 +134,16 @@ int Cylinder::refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &
 	double n = 1.0/getRefraction();
 	
 	/* sin2 + cos2 = 1 */
-	double cosTetaR = sqrtf(1-(n* sqrtf(1-pow(cosTetaI,2)) ));
+	double cosTetaR = sqrtf(1-pow((n* sqrtf(1-pow(cosTetaI,2)) ),2));
+	
+	if(cosTetaR ==0.0f)
+		return 0;
 	
 	Vector refractado = refraction_ray.direction*(n) - normal*(n*cosTetaI - cosTetaR );
 	
 	aux.direction = refractado;
 	aux.start = hitPoint;
 	aux.normalizar();
-	
-	double t;
 	
 	if( intersection(aux,t) ) {
 		Point hitPoint2;

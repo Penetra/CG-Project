@@ -17,7 +17,7 @@ public:
         void calculateNormal(Point &hitPoint, Vector &normal);
         bool intersects(Ray &ray, double &rT0, double &rT1);
 	Vector getNormal();
-	int refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &normal);
+	int refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &normal, double &t);
 
 };
 

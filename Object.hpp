@@ -16,7 +16,7 @@ public:
 
     virtual int intersection(Ray &ray, double &t) = 0;
     virtual void calculateNormal(Point &hitPoint, Vector &normal) = 0;
-	virtual int refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &normal) = 0;
+	virtual int refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &normal, double &t) = 0;
 
     Point getCentre();
 

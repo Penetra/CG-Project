@@ -29,7 +29,7 @@ int Sphere::intersection(Ray &ray, double &t) {
     
     double t1 = ((centre - ray.start) * ray.direction) / (sqrtf(ray.direction * ray.direction));
 
-    if (t1 <= 0)
+    if (t1 <= 0.0f)
         return 0;
 
     /* d = sqrt( ||L||^2 - t1^2 )**/
@@ -40,9 +40,11 @@ int Sphere::intersection(Ray &ray, double &t) {
 
     double t2 = sqrtf(pow(raio, 2) - pow(d, 2));
 
-    t = t1 - t2;        
-    
-    return 1;
+	t = t1 - t2;
+	
+	if(t>0.0f)
+		return 1;
+	return 0;
 }
 
 void Sphere::calculateNormal(Point &hitPoint, Vector &normal){
@@ -50,20 +52,15 @@ void Sphere::calculateNormal(Point &hitPoint, Vector &normal){
     normal = hitPoint - centre;
     
     double temp = normal * normal;
-    if (temp == 0.0f){
-        return;
-    }
     temp = 1.0f / sqrtf(temp);
     normal = normal * temp;
-    
-    
 }
 
 double Sphere::getRaio() {
     return raio;
 }
 
-int Sphere::refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &normal) {
+int Sphere::refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &normal, double &t) {
 	/*
 	Water	1.33
 	Glass	1.50
@@ -79,15 +76,13 @@ int Sphere::refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &no
 	double n = 1.0/getRefraction();
 	
 	/* sin2 + cos2 = 1 */
-	double cosTetaR = sqrtf(1-(n* sqrtf(1-pow(cosTetaI,2)) ));
+	double cosTetaR = sqrtf(1-pow((n* sqrtf(1-pow(cosTetaI,2)) ),2));
 	
 	Vector refractado = refraction_ray.direction*(n) - normal*(n*cosTetaI - cosTetaR );
 	
 	aux.direction = refractado;
 	aux.start = hitPoint;
-	aux.normalizar();
-	
-	double t;
+	//aux.normalizar();
 	
 	if( intersection(aux,t) ) {
 		Point hitPoint2;

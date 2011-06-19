@@ -10,6 +10,7 @@ using namespace std;
 #include "Cylinder.hpp"
 
 extern Colour output[800][600];
+Colour cor;
 
 void saturation(Colour &cor){
     if(cor.red > 1.0)
@@ -19,14 +20,18 @@ void saturation(Colour &cor){
     if(cor.blue > 1.0)
         cor.blue = 1.0;
 }
-
-void ray_trace(Ray raio, int level, Object **objectList, int objectListSize, Light *lightList, int lightListSize, int i, int j, Colour cor) {
+double r, x, teta;
+Vector use;
+Vector v;
+Ray shadow_ray;
+void ray_trace(Ray raio, int level, Object **objectList, int objectListSize, Light *lightList, int lightListSize, int i, int j, Colour &cor) {
 	int currentObject;
 	int k,l;
 	int shadow;
 	Light currentLight;
+
 	
-	do{
+	while (level < 10){
         Point hitPoint;
         currentObject = -1;
 
@@ -53,10 +58,27 @@ void ray_trace(Ray raio, int level, Object **objectList, int objectListSize, Lig
 				refraction_ray.start = raio.start;
 				refraction_ray.direction = raio.direction;
 				
-				if(objectList[currentObject]->refractionDirection(refraction_ray, hitPoint, normal)) {
-					refraction_ray.intensity = raio.intensity*objectList[currentObject]->getRefraction();
+				if(objectList[currentObject]->refractionDirection(refraction_ray, hitPoint, normal, t)) {
+					refraction_ray.intensity = raio.intensity;
+					Colour aux_cor = cor;
 					
 					ray_trace(refraction_ray, level+1, objectList, objectListSize, lightList, lightListSize, i, j, cor);
+					
+					/* Beer's Law */
+					//printf("%lf ",t);
+
+					Colour absorbance = objectList[currentObject]->cor;
+					absorbance.red *= 0.15*t;
+					absorbance.green *= 0.15*t;
+					absorbance.blue *= 0.15*t;
+					Colour transparency = absorbance;
+					transparency.red = exp(absorbance.red);
+					transparency.green = exp(absorbance.green);
+					transparency.blue = exp(absorbance.blue);
+					cor.red += aux_cor.red*transparency.red;
+					cor.green += aux_cor.green*transparency.green;
+					cor.blue += aux_cor.blue*transparency.blue;
+					
 				}
 			}
             
@@ -82,48 +104,111 @@ void ray_trace(Ray raio, int level, Object **objectList, int objectListSize, Lig
                 double lightProj = light.direction * normal;
 
                 /* We need to know if there's any object between our intersection point and the light**/
+				if(!currentLight.type) { //normal
+	                shadow = false;
+	                for(l = 0;l < objectListSize; l++){
+	                    t = lightDistance;
+	                    if(currentObject != l && objectList[l]->intersection(shadow_ray,t)){
+	                        shadow = true;
+	                        break;
+	                    }
+	                }
 
-                shadow = false;
-                for(l = 0;l < objectListSize; l++){
-                    t = lightDistance;
-                    if(objectList[l]->intersection(light,t) && k != l){
-                        shadow = true;
-                        break;
-                    }
-                }
-
-
-                if(!shadow){
-                    double lambert = light.direction * normal * raio.getIntensity();
+				
+	                if(!shadow){
+					
+	                    double lambert = light.direction * normal * raio.getIntensity();
                     
-                    cor.red += lambert * objectList[currentObject]->getRed() * currentLight.getRed();
-                    cor.green += lambert * objectList[currentObject]->getGreen() * currentLight.getGreen();
-                    cor.blue += lambert * objectList[currentObject]->getBlue() * currentLight.getBlue();
+	                    cor.red += lambert * objectList[currentObject]->getRed() * currentLight.getRed();
+	                    cor.green += lambert * objectList[currentObject]->getGreen() * currentLight.getGreen();
+	                    cor.blue += lambert * objectList[currentObject]->getBlue() * currentLight.getBlue();
 
-                    Vector blinnDir = light.direction - raio.direction;
-                    double temp = blinnDir * blinnDir;
+	                    Vector blinnDir = light.direction - raio.direction;
+	                    double temp = blinnDir * blinnDir;
 
 
-                    if (temp != 0.0){
-                        double viewProjection = raio.direction * normal;
-                        double blinn;
+	                    if (temp != 0.0){
+	                        double viewProjection = raio.direction * normal;
+	                        double blinn;
 
-                        if(lightProj - viewProjection < 0){
-                            blinn = 0.0;
-                        }
-                        else{
-                            blinn = (1.0/sqrtf(temp)) * (lightProj - viewProjection);
+	                        if(lightProj - viewProjection < 0){
+	                            blinn = 0.0;
+	                        }
+	                        else{
+	                            blinn = (1.0/sqrtf(temp)) * (lightProj - viewProjection);
                             
-                        }
-                        blinn = raio.getIntensity() * powf(blinn, objectList[currentObject]->getShininess());
+	                        }
+	                        blinn = raio.getIntensity() * powf(blinn, objectList[currentObject]->getShininess());
 
-                        /*cor += (c * blinn * currentLight.intensity);**/
-                        cor.red += (blinn * objectList[currentObject]->getSpecular().red * currentLight.getIntensity());
-                        cor.green += (blinn * objectList[currentObject]->getSpecular().green * currentLight.getIntensity() );
-                        cor.blue += (blinn * objectList[currentObject]->getSpecular().blue * currentLight.getIntensity());
-                    }
+	                        /*cor += (c * blinn * currentLight.intensity);**/
+						
+	                        cor.red += (blinn * objectList[currentObject]->getSpecular().red * currentLight.getIntensity());
+	                        cor.green += (blinn * objectList[currentObject]->getSpecular().green * currentLight.getIntensity() );
+	                        cor.blue += (blinn * objectList[currentObject]->getSpecular().blue * currentLight.getIntensity());
+				
+	                    }
+	                } // end if shadow
+				} else { // soft shadows
+					r = currentLight.raio;
+					for(teta=0.0; teta<360.0 ;teta+=10.0) {
+						x = r *cos( teta*3.14158265/180.0); // converte para radianos
+						use.x = x;
+						use.y = 0.0;
+						use.z = sqrtf(r*r - x*x);
+						if(teta>180.0)
+							use.z = -use.z;
+						v = (currentLight.centre+use)-hitPoint;
+						
+						
+						shadow = false;
+						v = v*((v*v)*(1.0/sqrt(v*v))); // normalizar
+						shadow_ray.start = hitPoint;
+						
+						shadow_ray.direction = v;
+						for(l = 0;l < objectListSize; l++){
+		                    t = lightDistance;
+		                    if(currentObject != l && objectList[l]->intersection(shadow_ray,t)){
+		                        shadow = true;
+		                        break;
+		                    }
+		                }
+						if(!shadow) {
+							double lambert = light.direction * normal * raio.getIntensity();
 
-                }
+		                    cor.red += lambert * objectList[currentObject]->getRed() * currentLight.getRed();
+		                    cor.green += lambert * objectList[currentObject]->getGreen() * currentLight.getGreen();
+		                    cor.blue += lambert * objectList[currentObject]->getBlue() * currentLight.getBlue();
+
+		                    Vector blinnDir = light.direction- raio.direction;
+		                    double temp = blinnDir * blinnDir;
+
+
+		                    if (temp != 0.0){
+		                        double viewProjection = raio.direction * normal;
+		                        double blinn;
+
+		                        if(lightProj - viewProjection < 0){
+		                            blinn = 0.0;
+		                        }
+		                        else{
+		                            blinn = (1.0/sqrtf(temp)) * (lightProj - viewProjection);
+
+		                        }
+		                        blinn = raio.getIntensity() * powf(blinn, objectList[currentObject]->getShininess());
+
+		                        /*cor += (c * blinn * currentLight.intensity);**/
+
+		                        cor.red += (blinn * objectList[currentObject]->getSpecular().red * currentLight.getIntensity());
+		                        cor.green += (blinn * objectList[currentObject]->getSpecular().green * currentLight.getIntensity() );
+		                        cor.blue += (blinn * objectList[currentObject]->getSpecular().blue * currentLight.getIntensity());
+
+		                    }
+						}
+					}
+					cor.red = cor.red/36.0;
+					cor.green = cor.green/36.0;
+					cor.blue = cor.blue/36.0;
+				} // end if type light
             }
 
             /*double reflet = 2.0f*(raio.direction * normal);*/
@@ -140,14 +225,13 @@ void ray_trace(Ray raio, int level, Object **objectList, int objectListSize, Lig
             output[i][j].blue += cor.blue;
             break;
         }
-    }while (level < 10 );
+    }
 }
 
 void createImage(int screenWidth, int screenHeight, Object **objectList, int objectListSize, Light *lightList, int lightListSize){
 
     int i, j, k, l;
     int shadow = false;
-    Colour cor;
     Ray raio;
     Light currentLight;
     Point camera = {300,400,-1000};

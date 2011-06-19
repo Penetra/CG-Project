@@ -39,7 +39,7 @@ int Wall::intersection(Ray &ray, double &t) {
     t = (-d - (getNormal() * ray.start)) / temp;
     
     /* If t < 0 there's no intersection*/
-    if( t < 0)
+    if( t < 0.0000001)
         return 0;
     
     if(chess){
@@ -95,6 +95,6 @@ Vector Wall::getNormal() {
     return normal;
 }
 
-int Wall::refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &normal) {
+int Wall::refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &normal, double &t) {
 	return 0;
 }

@@ -49,4 +49,12 @@ void Light::setGreen(double g){
 void Light::setBlue(double b){
 	cor.blue = b;
 }
+
+void Light::setType(int t){
+	type = t;
+}
+
+void Light::setRaio(double r){
+	raio = r;
+}
 	
