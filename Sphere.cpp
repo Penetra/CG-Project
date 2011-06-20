@@ -78,20 +78,25 @@ int Sphere::refractionDirection(Ray &refraction_ray, Point &hitPoint, Vector &no
 	/* sin2 + cos2 = 1 */
 	double cosTetaR = sqrtf(1-pow((n* sqrtf(1-pow(cosTetaI,2)) ),2));
 	
+	if(cosTetaR ==0.0f)
+		return 0;
+	
 	Vector refractado = refraction_ray.direction*(n) - normal*(n*cosTetaI - cosTetaR );
 	
-	aux.direction = refractado;
-	aux.start = hitPoint;
-	//aux.normalizar();
+	refraction_ray.direction = refractado;
+	refraction_ray.start = hitPoint;
+	refraction_ray.normalizar();
 	
+	return 1;
+	/*
 	if( intersection(aux,t) ) {
 		Point hitPoint2;
 		hitPoint2 = aux.start + aux.direction*t;
 		
 		/* direcção é a mesma de antes */
-		refraction_ray.start = hitPoint2;
+		/*refraction_ray.start = hitPoint2;
 		return 1;
 	} else {
 		return 0;
-	}
+	}*/
 }

@@ -60,17 +60,17 @@ void ray_trace(Ray raio, int level, Object **objectList, int objectListSize, Lig
 				
 				if(objectList[currentObject]->refractionDirection(refraction_ray, hitPoint, normal, t)) {
 					refraction_ray.intensity = raio.intensity;
-					Colour aux_cor = cor;
+					Colour aux_cor = {0.0f,0.0f,0.0f};
 					
-					ray_trace(refraction_ray, level+1, objectList, objectListSize, lightList, lightListSize, i, j, cor);
+					ray_trace(refraction_ray, level+1, objectList, objectListSize, lightList, lightListSize, i, j, aux_cor);
 					
 					/* Beer's Law */
 					//printf("%lf ",t);
 
 					Colour absorbance = objectList[currentObject]->cor;
-					absorbance.red *= 0.15*t;
-					absorbance.green *= 0.15*t;
-					absorbance.blue *= 0.15*t;
+					absorbance.red *= 0.15*t*(-1);
+					absorbance.green *= 0.15*t*(-1);
+					absorbance.blue *= 0.15*t*(-1);
 					Colour transparency = absorbance;
 					transparency.red = exp(absorbance.red);
 					transparency.green = exp(absorbance.green);

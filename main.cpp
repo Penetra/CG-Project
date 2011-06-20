@@ -35,18 +35,17 @@ int lightListSize;
 Colour output[800][600];
 
 void createObjects() {
-
-    objectListSize = 2;
-    lightListSize = 2;
+    objectListSize = 3;
+    lightListSize = 1;
     
     objectList = new Object *[objectListSize];
     lightList = new Light [lightListSize];
-    if(false){
+    if(true){
 		Cylinder *cyl = new Cylinder(0.0, 0.0, 0, 0.0, 0.0, 1.0, 100.0, 100.0);
         (*cyl).setSpecular(1.0, 1.0, 1.0);
         (*cyl).setDiffuse(1.0, 1.0, 1.0);
         //(*cyl).setReflection(1.0);
-		//(*cyl).setRefraction(1.0);
+		//(*cyl).setRefraction(1.5);
         (*cyl).setShininess(30.0);
         objectList[1] = cyl;
 /*
@@ -68,22 +67,22 @@ void createObjects() {
         (*sphere).setShininess(30.0);
 
         objectList[2] = sphere;
-/*
-		Sphere *sphere3 = new Sphere(200.0, 300, 100, 0.5, 0.5, 0.5, 100.0);
+
+		Sphere *sphere3 = new Sphere(500.0, 300, 100, 0.5, 0.5, 0.5, 100.0);
 
         (*sphere3).setDiffuse(0.0, 0.0, 0.0);
         (*sphere3).setReflection(1.0);
-		//(*sphere).setRefraction(1.3);
+		//(*sphere3).setRefraction(1.3);
         (*sphere3).setSpecular(1.0, 1.0, 1.0);
         (*sphere3).setShininess(30.0);
 
-        objectList[3] = sphere3;
+        objectList[2] = sphere3;
 */
 		Cone *cone = new Cone(500.0, 0.0, 0, 0.0, 0.0, 1.0, 100.0, 200.0);
 		(*cone).setSpecular(1.0, 1.0, 1.0);
         (*cone).setDiffuse(1.0, 1.0, 1.0);
         //(*cone).setReflection(1.0);
-		//(*cone).setRefraction(1.0);
+		//(*cone).setRefraction(1.5);
         (*cone).setShininess(30.0);
         objectList[2] = cone;
 		
@@ -106,10 +105,10 @@ void createObjects() {
         objectList[2] = right;
 		*/
         
-        /*lightList[0] = Light(300, 500.0, -100, 1.0, 1.0, 1.0, 1.0);
-		lightList[0].type = 1;
+        lightList[0] = Light(300, 500.0, -100, 1.0, 1.0, 1.0, 1.0);
+		//lightList[0].type = 1;
 		//lightList[0].raio = 50.0; */
-		lightList[0] = Light(800, 500.0, 100, 1.0, 1.0, 1.0, 1.0);
+		//lightList[0] = Light(800, 500.0, 100, 1.0, 1.0, 1.0, 1.0);
     }
     else{
         lightList[0] = Light(220, 600.0, -200, 1.0, 1.0, 1.0, 1.0);
