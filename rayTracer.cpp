@@ -65,7 +65,6 @@ void ray_trace(Ray raio, int level, Object **objectList, int objectListSize, Lig
 					ray_trace(refraction_ray, level+1, objectList, objectListSize, lightList, lightListSize, i, j, aux_cor);
 					
 					/* Beer's Law */
-					//printf("%lf ",t);
 
 					Colour absorbance = objectList[currentObject]->cor;
 					absorbance.red *= 0.15*t*(-1);
@@ -234,7 +233,7 @@ void createImage(int screenWidth, int screenHeight, Object **objectList, int obj
     int shadow = false;
     Ray raio;
     Light currentLight;
-    Point camera = {300,400,-1000};
+    Point camera = {400,400,-1000};
     Point end;
     
     for (j = 0; j < screenHeight; j++) {

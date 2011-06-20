@@ -101,7 +101,7 @@ double Cylinder::getRaio(){
 
 void Cylinder::calculateNormal(Point &hitPoint, Vector &normal){
 	/*printf("%lf\n",hitPoint.y);*/
-    if (hitPoint.y==top.y) { /* Hit the top */
+    if (abs(hitPoint.y-top.y) < 0.00000001) { /* Hit the top */
 		normal.x = 0;
 		normal.y = 1;
 		normal.z = 0;
