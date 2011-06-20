@@ -99,8 +99,8 @@ struct Colour {
         return *this;
     }
 
-	inline Colour operator *(const Colour & c2) {
-		Colour cenas;
+    inline Colour operator *(const Colour & c2) {
+            Colour cenas;
         cenas.red *= c2.red;
         cenas.green *= c2.green;
         cenas.blue *= c2.blue;

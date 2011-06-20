@@ -3,6 +3,8 @@
 #include <cstdio>
 #include <cmath>
 
+#define squareSize 100
+
 Wall::Wall() {
 
 }
@@ -43,10 +45,12 @@ int Wall::intersection(Ray &ray, double &t) {
         return 0;
     
     if(chess){
-        Point hitPoint = ray.start + (ray.direction * t);
+        Point hit = ray.start + (ray.direction * t);
+        if(hit.x > centre.x + squareSize || hit.x < centre.x - squareSize || hit.z > centre.z + squareSize || hit.z < centre.z - squareSize)
+            return 0;
         int x,z;
-        x = int(floor(hitPoint.x * 1/200));
-        z = int(floor(hitPoint.z * 1/200));
+        x = int(floor(hit.x * 1/squareSize));
+        z = int(floor(hit.z * 1/squareSize));
         
         if((x % 2) == 0){
             if((z % 2) == 0){
