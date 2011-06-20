@@ -2,6 +2,8 @@
 #ifndef __STRUCTURES_H
 #define __STRUCTURES_H
 #include <vector>
+#define screenWidth 800
+#define screenHeight 600
 
 using namespace std;
 
@@ -153,6 +155,6 @@ struct Scene{
         vector<Light> lights;
 };*/
 
-void createImage(int screenWidth, int screenHeight, Object **objectList, int objectListSize, Light *lightList, int lightListSize);
+void createImage(Object **objectList, int objectListSize, Light *lightList, int lightListSize);
 
 #endif

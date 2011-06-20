@@ -9,7 +9,7 @@ using namespace std;
 #include "Light.hpp"
 #include "Cylinder.hpp"
 
-extern Colour output[800][600];
+extern Colour output[screenWidth][screenHeight];
 Colour cor;
 
 void saturation(Colour &cor) {
@@ -46,6 +46,7 @@ void ray_trace(Ray raio, int level, Object **objectList, int objectListSize, Lig
             }
 
         }
+        
         /* Intersections found*/
         if (currentObject != -1) {
 
@@ -53,6 +54,7 @@ void ray_trace(Ray raio, int level, Object **objectList, int objectListSize, Lig
             /* Calculate Normal on the intersection point*/
             Vector normal;
             objectList[currentObject]->calculateNormal(hitPoint, normal);
+            
 
             if (objectList[currentObject]->getRefraction()) {
                 Ray refraction_ray;
@@ -101,6 +103,10 @@ void ray_trace(Ray raio, int level, Object **objectList, int objectListSize, Lig
                 double temp = 1.0f / sqrtf(lightDistance);
 
                 light.direction = light.direction * temp;
+                
+                double lightProj = light.direction * normal;
+                if(lightProj < 0.00000001)
+                             continue;
 
                 /* We need to know if there's any object between our intersection point and the light**/
                 if (!currentLight.type) { //normal
@@ -115,12 +121,12 @@ void ray_trace(Ray raio, int level, Object **objectList, int objectListSize, Lig
 
 
                     if (!shadow) {
-
                         double lambert = light.direction * normal * raio.getIntensity();
 
                         cor.red += lambert * objectList[currentObject]->getRed() * currentLight.getRed();
                         cor.green += lambert * objectList[currentObject]->getGreen() * currentLight.getGreen();
                         cor.blue += lambert * objectList[currentObject]->getBlue() * currentLight.getBlue();
+                        
 
                         Vector blinnDir = light.direction - raio.direction;
                         double temp = blinnDir * blinnDir;
@@ -128,7 +134,6 @@ void ray_trace(Ray raio, int level, Object **objectList, int objectListSize, Lig
 
                         if (temp != 0.0) {
                             double viewProjection = raio.direction * normal;
-                            double lightProj = light.direction * normal;
                             double blinn;
 
                             if (lightProj - viewProjection < 0) {
@@ -182,7 +187,6 @@ void ray_trace(Ray raio, int level, Object **objectList, int objectListSize, Lig
 
                             if (temp != 0.0) {
                                 double viewProjection = raio.direction * normal;
-                                double lightProj = light.direction * normal;
                                 double blinn;
 
                                 if (lightProj - viewProjection < 0) {
@@ -217,6 +221,9 @@ void ray_trace(Ray raio, int level, Object **objectList, int objectListSize, Lig
         level++;
         if (currentObject == -1 || level == 10 || raio.intensity <= 0.00000001) {
             saturation(cor);
+            if(cor.red <= 0.00000001 && cor.green <= 0.00000001 && cor.blue <= 0.00000001 && currentObject == 1){
+                //printf("i - %d j - %d\n",i,j);
+            }
             output[i][j].red += cor.red;
             output[i][j].green += cor.green;
             output[i][j].blue += cor.blue;
@@ -225,13 +232,11 @@ void ray_trace(Ray raio, int level, Object **objectList, int objectListSize, Lig
     }
 }
 
-void createImage(int screenWidth, int screenHeight, Object **objectList, int objectListSize, Light *lightList, int lightListSize) {
+void createImage(Object **objectList, int objectListSize, Light *lightList, int lightListSize) {
 
-    int i, j, k, l;
-    int shadow = false;
+    int i, j;
     Ray raio;
-    Light currentLight;
-    Point camera = {300, 400, -1000};
+    Point camera = {300,700,-1500};
     Point end;
 
     for (j = 0; j < screenHeight; j++) {

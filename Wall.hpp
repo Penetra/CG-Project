@@ -9,6 +9,8 @@ class Wall: public Object{
 public:
 	Vector normal;
         bool chess;
+        bool limited;
+        int numberOfSquares;
 	Wall();
 	Wall(double centreX, double centreY, double centreZ, double normalX, double normalY, double normalZ, double red, double green, double blue);
 	~Wall();
