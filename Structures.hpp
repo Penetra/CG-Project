@@ -2,6 +2,8 @@
 #ifndef __STRUCTURES_H
 #define __STRUCTURES_H
 #include <vector>
+#define screenWidth 800
+#define screenHeight 600
 
 using namespace std;
 
@@ -99,8 +101,8 @@ struct Colour {
         return *this;
     }
 
-	inline Colour operator *(const Colour & c2) {
-		Colour cenas;
+    inline Colour operator *(const Colour & c2) {
+            Colour cenas;
         cenas.red *= c2.red;
         cenas.green *= c2.green;
         cenas.blue *= c2.blue;
@@ -153,6 +155,6 @@ struct Scene{
         vector<Light> lights;
 };*/
 
-void createImage(int screenWidth, int screenHeight, Object **objectList, int objectListSize, Light *lightList, int lightListSize);
+void createImage(Object **objectList, int objectListSize, Light *lightList, int lightListSize);
 
 #endif
