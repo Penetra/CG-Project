@@ -406,7 +406,6 @@ void createObjects(int scene) {
 		Cylinder *cyl = new Cylinder(400.0, 0.0, -100, 1.0, 1.0, 0.0, 100.0, 100.0);
 		(*cyl).setSpecular(0.0, 1.0, 0.0);
 		(*cyl).setDiffuse(1.0, 1.0, 1.0);
-	//(*cyl).setReflection(1.0);
 		(*cyl).setShininess(30.0);
 		objectList[1] = cyl;
 
@@ -414,7 +413,6 @@ void createObjects(int scene) {
 		(*cone).setSpecular(1.0, 1.0, 1.0);
 		(*cone).setDiffuse(1.0, 1.0, 1.0);
 		(*cone).setShininess(30.0);
-	//(*cone).setReflection(1.0);
 		objectList[6] = cone;
 
 		Sphere *sphere3 = new Sphere(400.0, 100, 100, 0.0, 0.0, 0.0, 100.0);
@@ -456,7 +454,7 @@ void createObjects(int scene) {
 
 		(*floor).setSpecular(1.0, 1.0, 1.0);
 		(*floor).setDiffuse(1.0, 1.0, 1.0);
-	//(*floor).setReflection(1.0);
+		//(*floor).setReflection(1.0);
 		(*floor).setShininess(30.0);
 		(*floor).chess = true;
 		objectList[0] = floor;
@@ -508,7 +506,7 @@ int main(int argc, char** argv) {
 	glutInitWindowSize(screenWidth, screenHeight);
 	glutCreateWindow("Projecto RayTracing - {jpenetra,rjrocha}@student.dei.uc.pt");
 
-	createObjects(1);
+	createObjects(6);
 	createImage(objectList, objectListSize, lightList, lightListSize);
 
 	glutDisplayFunc(display);
